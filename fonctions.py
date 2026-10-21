@@ -19,7 +19,16 @@ def rechercher_produits(catalogue, recherche):
 def selectionner_equipements(catalogue, prix_max, poids_max_g, longueur_max_cm):
     """Retourne les lanceurs et accessoires respectant les trois maxima inclusifs."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("selectionner_equipements est à compléter.")
+    # raise NotImplementedError("selectionner_equipements est à compléter.")
+    list_article = []
+    for article in catalogue:
+        categorie = article.get("categorie","")
+        prix = article.get("prix_euros","")
+        poids = article.get("poids_g","")
+        longueur = article.get("dimensions_cm",{}).get("longueur", "")
+        if categorie in ["lanceur", "accessoire"] and prix <= prix_max and poids <= poids_max_g and longueur <= longueur_max_cm:
+            list_article.append(article)
+    return list_article
 
 
 # Étape 3 : réunir les codes, filtrer les fiches et repérer une offre manquante.
