@@ -70,31 +70,63 @@ def consommables_sans_offre(catalogue):
 def trouver_produit(catalogue, identifiant):
     """Retourne la fiche d'identifiant exact, ou None si elle est absente."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("trouver_produit est à compléter.")
+    # raise NotImplementedError("trouver_produit est à compléter.")
+    for article in catalogue:
+        if identifiant == article.get("id"):
+            return article
+    return None
+        
 
 
 def lire_demande(texte):
     """Retourne un dictionnaire id/quantite depuis une ligne « identifiant ; entier »."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("lire_demande est à compléter.")
+    # raise NotImplementedError("lire_demande est à compléter.")
+    parties = texte.split(";") 
+    if len(parties) < 2:
+        return None
+    id = parties[0].strip().upper()
+    quantite = int(parties[1])
+    return {"id": id, "quantite": quantite }
 
 
 def calculer_budget(produit, quantite):
     """Retourne le prix de quantite conditionnements, entière positive ou nulle, arrondi à deux décimales."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("calculer_budget est à compléter.")
+    # raise NotImplementedError("calculer_budget est à compléter.")
+    prix = produit.get("prix_euros", 0)
+    budget = prix * quantite
+    return round(budget, 2)
 
 
 def preparer_ligne(produit, quantite):
     """Retourne une copie superficielle de la fiche avec quantite et sous_total_euros."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("preparer_ligne est à compléter.")
+    # raise NotImplementedError("preparer_ligne est à compléter.")
+    produit_copie = produit.copy()
+    sous_total = calculer_budget(produit_copie, quantite)
+    produit_copie.update({"quantite": quantite, "sous_total_euros": sous_total})
+    return produit_copie
 
 
 def preparer_commande(catalogue, demandes):
     """Retourne un dictionnaire lignes/inconnues en ignorant les demandes blanches."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("preparer_commande est à compléter.")
+    # raise NotImplementedError("preparer_commande est à compléter.")
+    lignes = []
+    inconnues = []
+
+    for demande in demandes:
+        donnees = lire_demande(demande)
+        if donnees is None:
+            continue
+        produit = trouver_produit(catalogue, donnees["id"])
+        if produit:
+            lignes.append(preparer_ligne(produit, donnees["quantite"]))
+        else:
+            inconnues.append(donnees["id"])
+    return {"lignes": lignes, "inconnues": inconnues}
+
 
 
 # Étape 5 : réutiliser les résultats et choisir les effets sur les données.
