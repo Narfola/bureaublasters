@@ -35,20 +35,36 @@ def selectionner_equipements(catalogue, prix_max, poids_max_g, longueur_max_cm):
 def consommables_disponibles(catalogue):
     """Retourne les codes utilisés ou fournis, sans doublons ni mutation."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("consommables_disponibles est à compléter.")
-
+    # raise NotImplementedError("consommables_disponibles est à compléter.")
+    codes = set()
+    for article in catalogue:
+        codes.update(article.get("consommables_utilises", []))
+        codes.update(article.get("consommables_fournis", []))
+    return codes
 
 def filtrer_par_consommable(catalogue, code):
     """Retourne une nouvelle liste des utilisateurs et fournisseurs du code, dans l'ordre."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("filtrer_par_consommable est à compléter.")
+    # raise NotImplementedError("filtrer_par_consommable est à compléter.")
+    resultat = []
+    for article in catalogue:
+        utilises = article.get("consommables_utilises", [])
+        fournis = article.get("consommables_fournis", [])
+        if code in utilises or code in fournis:
+            resultat.append(article)
+    return resultat
 
 
 def consommables_sans_offre(catalogue):
     """Retourne les codes utilisés par un produit mais fournis par aucune référence."""
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("consommables_sans_offre est à compléter.")
-
+    # raise NotImplementedError("consommables_sans_offre est à compléter.")
+    codes_utilises = set()
+    codes_fournis = set()
+    for article in catalogue:
+        codes_utilises.update(article.get("consommables_utilises", []))
+        codes_fournis.update(article.get("consommables_fournis", []))
+    return codes_utilises - codes_fournis
 
 # Étape 4 : transformer chaque demande en une ligne de commande indépendante.
 def trouver_produit(catalogue, identifiant):
