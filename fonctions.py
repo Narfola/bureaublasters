@@ -4,8 +4,16 @@
 # Étape 2 : nettoyer une recherche et combiner des critères.
 def rechercher_produits(catalogue, recherche):
     """Retourne les fiches dont le nom ou la description contient la recherche nettoyée."""
+    list_article = []
+    recherche_nettoyer = recherche.strip().lower()
+    for article in catalogue:
+        nom = article.get("nom", "").lower()
+        description = article.get("description", "").lower()
+        if recherche_nettoyer in nom or recherche_nettoyer in description:
+            list_article.append(article)
+    return list_article
     # À compléter : suis le contrat et les vérifications de cette étape dans le README.
-    raise NotImplementedError("rechercher_produits est à compléter.")
+    # raise NotImplementedError("rechercher_produits est à compléter.")
 
 
 def selectionner_equipements(catalogue, prix_max, poids_max_g, longueur_max_cm):
