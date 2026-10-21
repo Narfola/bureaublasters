@@ -364,7 +364,7 @@ CATALOGUE = [
         "nom": "Balles de décompression",
         "categorie": "munition",
         "description": "Balles en mousse pour l’Orbe de Décompression.",
-        "prix_euros": 890,
+        "prix_euros": 8.90,
         "conditionnement": "lot de 10 balles",
         "consommables_utilises": [],
         "consommables_fournis": [
